@@ -2,7 +2,9 @@
 
 # Simple .exe Maker
 
-Create a small Windows launcher EXE for an existing program or script. The launcher stores the target path and launch settings, and can embed the target's icon or an icon you provide.
+Create a small Windows launcher EXE for a program or script you use often. Put the launcher on your desktop or move it to another folder, then use it like a remote control to start the original file where it already lives. The launcher remembers the original path, so rebuild it if you move the target.
+
+Drop in a single target to use its existing icon. Maker reads the embedded icon from an EXE or the icon configured for a shortcut. For BAT and CMD, it uses the Windows file type icon. To pick a different icon, drop in the target and an image together.
 
 ## Getting started
 
