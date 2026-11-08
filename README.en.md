@@ -6,6 +6,8 @@ Create a small Windows launcher EXE for a program or script you use often. Put t
 
 Drop in a single target to use its existing icon. Maker reads the embedded icon from an EXE or the icon configured for a shortcut. For BAT and CMD, it uses the Windows file type icon. To pick a different icon, drop in the target and an image together.
 
+This program was developed on Windows 11. Operation on Linux, macOS, or other environments is not guaranteed.
+
 ## Getting started
 
 1. Download `Simple_.exe_Maker_v2.4.0.zip` from [Releases](../../releases) and extract it.
