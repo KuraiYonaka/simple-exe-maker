@@ -1,0 +1,82 @@
+Simple .exe Maker v2.4.1 User Guide
+
+[Purpose]
+I built this tool because I found the arrow overlay on Windows shortcut (.lnk)
+icons distracting. The goal was to make a small EXE that works like a remote
+control, using the icon you want without the shortcut arrow and launching the
+original program or script from wherever you keep the launcher.
+
+The launcher stores the target path and launch settings and embeds an icon.
+It does not bundle the original program or script.
+
+[How to use]
+1. Extract the ZIP to a folder of your choice.
+2. Select one target to use its existing icon. To set a custom icon, select one
+   target and one image or ICO file.
+3. Drag the selected files onto Simple_.exe_Maker_v2.4.1.bat. When using two
+   files, their selection order does not matter.
+4. After compilation, choose where to save the launcher.
+   [1] Maker folder / [2] Desktop
+5. Run the saved launcher EXE.
+The ZIP includes the complete v2.4.1 BAT file.
+
+[Supported inputs]
+- Target (one): BAT, CMD, LNK (Windows shortcut), or EXE.
+- Optional custom icon (one): ICO, PNG, JPG, JPEG, BMP, GIF, TIF, or TIFF.
+- Images other than ICO must be square. Non-square images stop launcher
+  creation. Maker does not crop or stretch them.
+- Maker temporarily converts images to an ICO with 256, 128, 64, 48, 32,
+  24, and 16 pixel sizes.
+
+[Automatic icon selection]
+- Drop in only the target to use automatic mode.
+- For an EXE, Maker preserves the available frames from its first embedded
+  icon group.
+- For a shortcut, Maker tries the configured ICO, EXE, or DLL and its icon
+  index first. If that icon cannot be read, Maker tries the actual target.
+- BAT and CMD files use their Windows file type icons.
+- The Windows fallback may return an icon in only one size.
+- If no icon can be extracted, Maker creates the launcher with the default
+  EXE icon and shows a message.
+- Maker reads file icons. Icons shown only in a running app's window or
+  taskbar are outside this feature.
+- Automatically extracted icons are temporary and are removed after use.
+- Providing a custom image skips automatic icon selection.
+
+[How each target is launched]
+- BAT/CMD: Maker stores the absolute path and uses its folder as the working
+  directory.
+- LNK: Maker reads the target path, arguments, working directory, and window
+  state, then launches the target directly.
+- EXE: Maker uses the original path and folder, with the default window state
+  and no extra arguments. To supply arguments, use a working shortcut as input.
+
+[Saving and filenames]
+- Maker appends an invisible 12-character identifier before the .exe extension.
+- If the actual filename is taken, Maker tries another identifier. After 32
+  random retries, it checks all combinations in order and stops with a message
+  if every combination is in use.
+- When saving beside the original EXE, Maker adds Launcher to the display name.
+- Maker leaves the icon cache, Explorer, target files, and icon inputs alone.
+  It removes its temporary files when finished.
+
+[Notes]
+- The target must stay at its original path. You can move the launcher itself.
+- When the input is a shortcut, the launcher usually only needs the actual target.
+- Special Shell shortcuts without a regular executable target may be unsupported.
+- To change the icon, generate the launcher again.
+- The invisible characters are part of the filename and may show up in copied
+  paths or synchronization tools.
+- Several launchers can have the same display name. Remove old launchers as needed.
+- Generated EXE files are unsigned.
+
+[Requirements]
+Windows and the .NET Framework 4.x C# compiler (csc.exe).
+Official .NET Framework downloads:
+https://dotnet.microsoft.com/en-us/download/dotnet-framework
+Maker uses Windows scripting internally. The included BAT is the entry point.
+
+[Verification]
+On Windows 11, the author verified launcher creation using the target's existing
+icon and confirmed that the launcher still opened the original target after
+being moved to another folder.

@@ -8,6 +8,10 @@ Drop in a single target to use its existing icon. Maker reads the embedded icon 
 
 This program was developed on Windows 11. Operation on Linux, macOS, or other environments is not guaranteed.
 
+## Why I built it
+
+I built this tool because I found the arrow overlay on Windows shortcut (`.lnk`) icons distracting. The goal was to make a small EXE that works like a remote control, using the icon you want without the shortcut arrow and launching the original program or script from wherever you keep the launcher.
+
 ## Getting started
 
 1. Download `Simple_.exe_Maker_v2.4.1.zip` from [Releases](../../releases) and extract it.
@@ -32,7 +36,7 @@ Images other than ICO must be square. Creating a launcher requires Windows and t
 
 On Windows 11, the author verified that Maker creates a launcher with the target’s existing icon when no custom image is provided, and that the launcher still starts the original target after being moved to another folder.
 
-[Detailed guide (Korean)](USER_GUIDE.ko.txt) · [Changelog (Korean)](CHANGELOG.ko.txt)
+[Detailed guide (Korean)](USER_GUIDE.ko.txt) · [Detailed guide (English)](USER_GUIDE.en.txt) · [Changelog (Korean)](CHANGELOG.ko.txt)
 
 ## Permission
 
