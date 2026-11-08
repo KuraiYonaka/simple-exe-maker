@@ -30,7 +30,7 @@ Images other than ICO must be square. Windows and the .NET Framework 4.x C# comp
 - The actual filename includes invisible Unicode characters so Windows can distinguish icon cache entries. Generated EXEs are unsigned.
 - Maker runs from a single BAT file and invokes Windows PowerShell and the C# compiler internally.
 
-v2.4.0 was reviewed statically. This version has yet to be run on Windows for testing.
+On Windows 11, the author verified that Maker creates a launcher with the target’s existing icon when no custom image is provided, and that the launcher still starts the original target after being moved to another folder.
 
 [Detailed guide (Korean)](Simple_.exe_Maker_v2.4.0_사용설명서.txt) · [Changelog (Korean)](Simple_.exe_Maker_v2.4.0_변경사항.txt)
 
