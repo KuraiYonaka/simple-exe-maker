@@ -20,7 +20,7 @@
 | 실행 대상 | BAT, CMD, LNK, EXE |
 | 사용자 지정 아이콘 | ICO, PNG, JPG, JPEG, BMP, GIF, TIF, TIFF |
 
-ICO를 제외한 이미지는 정사각형이어야 합니다. Windows와 .NET Framework 4.x의 C# 컴파일러(`csc.exe`)가 필요합니다.
+ICO를 제외한 이미지는 정사각형이어야 합니다. 런처를 만들려면 Windows와 .NET Framework 4.x의 C# 컴파일러(`csc.exe`)가 필요합니다. Maker는 먼저 Windows의 .NET Framework 폴더에서 컴파일러를 찾습니다. 설치가 필요한 경우 [Microsoft 공식 .NET Framework 다운로드](https://dotnet.microsoft.com/ko-kr/download/dotnet-framework)에서 Windows 버전에 맞는 버전을 확인하세요.
 
 ## 아이콘과 실행 경로
 

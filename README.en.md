@@ -20,7 +20,7 @@ This program was developed on Windows 11. Operation on Linux, macOS, or other en
 | Launch target | BAT, CMD, LNK, EXE |
 | Custom icon | ICO, PNG, JPG, JPEG, BMP, GIF, TIF, TIFF |
 
-Images other than ICO must be square. Windows and the .NET Framework 4.x C# compiler (`csc.exe`) are required.
+Images other than ICO must be square. Creating a launcher requires Windows and the .NET Framework 4.x C# compiler (`csc.exe`). Maker checks the Windows .NET Framework folders for the compiler first. If you need to install .NET Framework, see the [official Microsoft .NET Framework downloads](https://dotnet.microsoft.com/en-us/download/dotnet-framework) for versions compatible with your Windows installation.
 
 ## Icons and launch paths
 
