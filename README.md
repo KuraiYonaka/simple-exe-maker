@@ -10,9 +10,9 @@
 
 ## 시작하기
 
-1. [Releases](../../releases)에서 `Simple_.exe_Maker_v2.4.0.zip`을 내려받아 압축을 풉니다.
+1. [Releases](../../releases)에서 `Simple_.exe_Maker_v2.4.1.zip`을 내려받아 압축을 풉니다.
 2. 기존 아이콘을 쓰려면 실행 대상 하나를, 아이콘을 바꾸려면 실행 대상과 이미지 하나를 함께 선택합니다.
-3. 선택한 파일을 `Simple_.exe_Maker_v2.4.0.bat` 위에 끌어 놓습니다.
+3. 선택한 파일을 `Simple_.exe_Maker_v2.4.1.bat` 위에 끌어 놓습니다.
 4. 저장 위치로 Maker 폴더 또는 바탕화면을 고른 뒤 생성된 EXE를 실행합니다.
 
 | 입력 | 지원 형식 |
@@ -32,7 +32,7 @@ ICO를 제외한 이미지는 정사각형이어야 합니다. Windows와 .NET F
 
 Windows 11에서 별도 이미지 없이 실행 대상의 기존 아이콘을 사용해 런처를 만들고, 만든 런처를 다른 폴더로 옮긴 뒤에도 원본이 실행되는 것을 확인했습니다.
 
-[상세 사용설명서](Simple_.exe_Maker_v2.4.0_사용설명서.txt) · [변경 이력](Simple_.exe_Maker_v2.4.0_변경사항.txt)
+[상세 사용설명서](USER_GUIDE.ko.txt) · [변경 이력](CHANGELOG.ko.txt)
 
 ## 이용 허가
 

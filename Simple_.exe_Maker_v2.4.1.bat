@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 setlocal EnableExtensions DisableDelayedExpansion
-title Simple_.exe_Maker v2.4.0
+title Simple_.exe_Maker v2.4.1
 
 if "%~1"=="" goto :usage
 if not "%~3"=="" goto :usage
@@ -12,43 +12,43 @@ if not "%~2"=="" set "SEM_ARG2=%~f2"
 set "SEM_MAKER_DIR=%~dp0"
 set "SEM_SELF=%~f0"
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$s=[IO.File]::ReadAllText($env:SEM_SELF);$m='###SIMPLE_EXE_MAKER_PS_'+'START###';$i=$s.IndexOf($m);if($i -lt 0){Write-Host '내부 스크립트를 찾을 수 없습니다.';exit 99};$p=$s.Substring($i+$m.Length);Invoke-Expression $p"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$s=[IO.File]::ReadAllText($env:SEM_SELF);$m='###SIMPLE_EXE_MAKER_PS_'+'START###';$i=$s.IndexOf($m);if($i -lt 0){Write-Host 'Could not find the embedded script.';exit 99};$p=$s.Substring($i+$m.Length);Invoke-Expression $p"
 set "RC=%ERRORLEVEL%"
 
 echo.
 if not "%RC%"=="0" (
-    echo 생성에 실패했습니다.
+    echo Could not create the launcher.
     echo.
-    echo 계속하려면 아무 키나 누르세요 . . .
+    echo Press any key to continue . . .
     pause >nul
     exit /b %RC%
 )
 
-echo 계속하려면 아무 키나 누르세요 . . .
+echo Press any key to continue . . .
 pause >nul
 exit /b 0
 
 :usage
 echo.
-echo Simple_.exe_Maker v2.4.0
+echo Simple_.exe_Maker v2.4.1
 echo ============================
-echo 실행 대상 1개 또는 실행 대상 + 아이콘 2개를 이 파일 위로 드래그 앤 드롭하세요.
-echo 실행 대상만 넣으면 기존 아이콘을 자동으로 가져옵니다.
+echo Drag a target file onto this script, optionally together with an icon.
+echo Drop only the target to use its existing icon automatically.
 echo.
-echo [실행 대상]
-echo - .bat 파일
-echo - .cmd 파일
-echo - '바로가기' 파일 (.lnk)
-echo - .exe 파일
+echo [Target files]
+echo - .bat file
+echo - .cmd file
+echo - Windows shortcut (.lnk)
+echo - .exe file
 echo.
-echo [아이콘: 직접 지정할 때만 추가]
+echo [Optional custom icon]
 echo - .ico
-echo - 정사각형 이미지 (.png / .jpg / .jpeg / .bmp / .gif / .tif / .tiff)
+echo - Square image (.png / .jpg / .jpeg / .bmp / .gif / .tif / .tiff)
 echo.
-echo 이미지 파일은 반드시 1:1 비율이어야 합니다.
-echo 1:1이 아니면 EXE를 생성하지 않습니다.
+echo Image files must have a 1:1 aspect ratio.
+echo Non-square images are rejected.
 echo.
-echo 계속하려면 아무 키나 누르세요 . . .
+echo Press any key to continue . . .
 pause >nul
 exit /b 1
 
@@ -94,7 +94,7 @@ function New-MultiSizeIco {
         $img = [System.Drawing.Image]::FromFile($SourceImage)
 
         if ($img.Width -ne $img.Height) {
-            Fail '입력된 이미지의 규격이 1:1이 아닙니다.'
+            Fail 'The image must be square.'
         }
 
         $sizes = @(256, 128, 64, 48, 32, 24, 16)
@@ -319,22 +319,22 @@ function Get-AutomaticIcon {
                 $location = Join-Path $ShortcutDirectory $location
             }
             if ([SemIconReader]::ResourceIcon($location, $index, $OutputIco)) {
-                Write-Host '바로가기에 지정된 아이콘을 가져왔습니다.'
+                Write-Host 'Using the icon specified by the shortcut.'
                 return $true
             }
-            Write-Host '지정된 아이콘을 읽지 못해 실제 실행 대상의 아이콘을 확인합니다.'
+            Write-Host 'Could not read the shortcut icon. Checking the target icon.'
         }
     }
-    catch { Write-Host '지정 아이콘 확인에 실패하여 실행 대상의 아이콘을 확인합니다.' }
+    catch { Write-Host 'Could not check the shortcut icon. Checking the target icon.' }
 
     try {
         Initialize-IconReader
         if ([SemIconReader]::ResourceIcon($TargetPath, 0, $OutputIco)) {
-            Write-Host '실행 대상의 내장 아이콘을 가져왔습니다.'
+            Write-Host 'Using the embedded target icon.'
             return $true
         }
         if ([SemIconReader]::ShellIcon($TargetPath, $OutputIco)) {
-            Write-Host 'Windows에서 제공하는 대상 아이콘을 가져왔습니다.'
+            Write-Host 'Using the target icon provided by Windows.'
             return $true
         }
     }
@@ -360,7 +360,7 @@ function Read-ShortcutInfo {
         $style = [int]$shortcut.WindowStyle
 
         if ([string]::IsNullOrWhiteSpace($target)) {
-            Fail "이 '바로가기' 파일에서는 일반 실행 대상을 확인할 수 없습니다.`n특수 바로가기 또는 Microsoft Store 앱 바로가기는 현재 지원하지 않습니다."
+            Fail "Could not find a regular executable target in this shortcut.`nSpecial shortcuts and Microsoft Store app shortcuts are unsupported."
         }
 
         if ([string]::IsNullOrWhiteSpace($work) -and (Test-Path -LiteralPath $target -PathType Leaf)) {
@@ -391,14 +391,14 @@ try {
     $makerDir = $env:SEM_MAKER_DIR
 
     if ([string]::IsNullOrWhiteSpace($arg1)) {
-        Fail '실행 대상 파일이 필요합니다.'
+        Fail 'A target file is required.'
     }
     $files = @($arg1)
     if (-not [string]::IsNullOrWhiteSpace($arg2)) { $files += $arg2 }
 
     foreach ($f in $files) {
         if (-not (Test-Path -LiteralPath $f -PathType Leaf)) {
-            Fail "파일을 찾을 수 없습니다: $f"
+            Fail "File not found: $f"
         }
     }
 
@@ -416,7 +416,7 @@ try {
     if ($launchFiles.Count -ne 1 -or
         ($files.Count -eq 2 -and $imageFiles.Count -ne 1) -or
         ($files.Count -eq 1 -and $imageFiles.Count -ne 0)) {
-        Fail "입력 형식이 올바르지 않습니다.`n실행 대상(.bat / .cmd / .lnk / .exe) 1개만 넣거나, 실행 대상 1개와 아이콘 1개를 함께 넣어 주세요."
+        Fail "Invalid input.`nDrop one target file (.bat, .cmd, .lnk, or .exe), optionally with one icon file."
     }
 
     $launchFile = $launchFiles[0]
@@ -445,7 +445,7 @@ try {
     }
 
     if (-not $csc) {
-        Fail 'C# 컴파일러(csc.exe)를 찾을 수 없습니다. .NET Framework 4.x가 설치/활성화되어 있는지 확인하세요.'
+        Fail 'Could not find the C# compiler (csc.exe). Check that .NET Framework 4.x is installed and enabled.'
     }
 
     $TempDir = Join-Path $env:TEMP ('SimpleExeMaker_' + [Guid]::NewGuid().ToString('N'))
@@ -464,15 +464,15 @@ try {
 
     if ($launchExt -eq '.bat' -or $launchExt -eq '.cmd') {
         Write-Host ''
-        if ($launchExt -eq '.cmd') { Write-Host '실행 대상: CMD 파일' } else { Write-Host '실행 대상: BAT 파일' }
+        if ($launchExt -eq '.cmd') { Write-Host 'Target: CMD file' } else { Write-Host 'Target: BAT file' }
 
         $targetPath = $launchFile
         $workingDirectory = [System.IO.Path]::GetDirectoryName($launchFile)
     }
     elseif ($launchExt -eq '.lnk') {
         Write-Host ''
-        Write-Host "실행 대상: '바로가기' 파일(.lnk)"
-        Write-Host '바로가기의 실행 정보를 읽는 중...'
+        Write-Host "Target: Windows shortcut (.lnk)"
+        Write-Host 'Reading shortcut launch settings...'
 
         $info = Read-ShortcutInfo -ShortcutPath $launchFile
 
@@ -484,7 +484,7 @@ try {
     }
     elseif ($launchExt -eq '.exe') {
         Write-Host ''
-        Write-Host '실행 대상: EXE 파일'
+        Write-Host 'Target: EXE file'
         $targetPath = $launchFile
         $arguments = ''
         $workingDirectory = [System.IO.Path]::GetDirectoryName($launchFile)
@@ -492,7 +492,7 @@ try {
     }
 
     $iconPath = $null
-    $iconDescription = '기본 EXE 아이콘'
+    $iconDescription = 'Default EXE icon'
     if ($null -ne $imageFile) {
         # ================================================================
         # 아이콘 준비
@@ -506,17 +506,17 @@ try {
             $iconPath = Join-Path $TempDir 'GeneratedIcon.ico'
 
             Write-Host ''
-            Write-Host '아이콘 이미지를 확인하는 중...'
+            Write-Host 'Checking the icon image...'
 
             try {
                 New-MultiSizeIco -SourceImage $imageFile -OutputIco $iconPath
             }
             catch {
-                if ($_.Exception.Message -eq '입력된 이미지의 규격이 1:1이 아닙니다.') {
+                if ($_.Exception.Message -eq 'The image must be square.') {
                     Write-Host ''
-                    Write-Host '오류: 입력된 이미지의 규격이 1:1이 아닙니다.'
-                    Write-Host '정사각형 이미지를 사용해 주세요.'
-                    Write-Host 'EXE 생성을 취소합니다.'
+                    Write-Host 'Error: The image must be square.'
+                    Write-Host 'Use a square image.'
+                    Write-Host 'Launcher creation canceled.'
                     Write-Host ''
                     exit 20
                 }
@@ -528,15 +528,15 @@ try {
     }
     else {
         Write-Host ''
-        Write-Host '기존 아이콘을 자동으로 가져오는 중...'
+        Write-Host 'Looking up the existing icon...'
         $autoIcon = Join-Path $TempDir 'OriginalIcon.ico'
         $shortcutDir = [IO.Path]::GetDirectoryName($launchFile)
         if (Get-AutomaticIcon -TargetPath $targetPath -IconLocation $iconLocation -ShortcutDirectory $shortcutDir -OutputIco $autoIcon) {
             $iconPath = $autoIcon
-            $iconDescription = '원본/대상 아이콘 자동 가져오기'
+            $iconDescription = 'Existing target icon'
         }
         else {
-            Write-Host '원본 아이콘을 가져올 수 없어 기본 EXE 아이콘으로 생성합니다.'
+            Write-Host 'Could not retrieve the existing icon. Using the default EXE icon.'
         }
     }
 
@@ -595,10 +595,10 @@ internal static class Program
     # EXE 생성
     # ================================================================
     Write-Host ''
-    Write-Host '런처 EXE를 생성하는 중...'
-    Write-Host ('실행 대상 : ' + $launchFile)
-    Write-Host ('실제 대상 : ' + $targetPath)
-    Write-Host ('아이콘     : ' + $iconDescription)
+    Write-Host 'Building the launcher EXE...'
+    Write-Host ('Input file: ' + $launchFile)
+    Write-Host ('Launch target: ' + $targetPath)
+    Write-Host ('Icon: ' + $iconDescription)
     Write-Host ''
 
     $compileArgs = @('/nologo', '/target:winexe', '/optimize+')
@@ -610,23 +610,23 @@ internal static class Program
     & $csc @compileArgs
 
     if ($LASTEXITCODE -ne 0) {
-        Fail "컴파일에 실패했습니다. 종료 코드: $LASTEXITCODE"
+        Fail "Compilation failed. Exit code: $LASTEXITCODE"
     }
 
     if (-not (Test-Path -LiteralPath $tempExePath -PathType Leaf)) {
-        Fail '컴파일은 끝났지만 EXE 파일이 생성되지 않았습니다.'
+        Fail 'Compilation finished without producing an EXE.'
     }
 
     Write-Host ''
-    Write-Host '.exe 생성이 완료되었습니다.'
+    Write-Host 'The launcher EXE was created.'
     Write-Host ''
-    Write-Host '저장할 위치를 선택해 주세요.'
-    Write-Host '[1] Simple_.exe_Maker 폴더'
-    Write-Host '[2] 바탕화면'
+    Write-Host 'Choose where to save the launcher.'
+    Write-Host '[1] Simple .exe Maker folder'
+    Write-Host '[2] Desktop'
     Write-Host ''
 
     do {
-        $choice = (Read-Host '번호를 입력하세요 (1/2)').Trim()
+        $choice = (Read-Host 'Enter 1 or 2').Trim()
 
         if ($choice -eq '1') {
             $destinationDir = $makerDir
@@ -635,12 +635,12 @@ internal static class Program
             $destinationDir = [Environment]::GetFolderPath('Desktop')
         }
         else {
-            Write-Host '1 또는 2를 입력해 주세요.'
+            Write-Host 'Enter 1 or 2.'
         }
     } while ($choice -ne '1' -and $choice -ne '2')
 
     if ([string]::IsNullOrWhiteSpace($destinationDir)) {
-        Fail '선택한 저장 위치를 확인할 수 없습니다.'
+        Fail 'Could not find the selected save location.'
     }
 
     # ------------------------------------------------------------
@@ -698,20 +698,20 @@ internal static class Program
     }
 
     if ($null -eq $outPath) {
-        Fail '같은 표시 이름에 사용할 수 있는 4,096개 식별자가 모두 사용 중입니다. 기존 런처를 정리하거나 다른 저장 위치를 선택해 다시 생성해 주세요.'
+        Fail 'All 4,096 filename variants are in use. Remove old launchers or choose another location and try again.'
     }
 
     Move-Item -LiteralPath $tempExePath -Destination $outPath
 
     Write-Host ''
-    Write-Host '저장이 완료되었습니다.'
-    Write-Host ('표시 이름   : ' + $visibleBaseName + '.exe')
-    Write-Host ('실제 경로   : ' + $outPath)
+    Write-Host 'Launcher saved.'
+    Write-Host ('Display name: ' + $visibleBaseName + '.exe')
+    Write-Host ('File path: ' + $outPath)
     Write-Host ''
 }
 catch {
     Write-Host ''
-    Write-Host ('오류: ' + $_.Exception.Message)
+    Write-Host ('Error: ' + $_.Exception.Message)
     Write-Host ''
     exit 1
 }

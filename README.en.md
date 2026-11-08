@@ -10,9 +10,9 @@ This program was developed on Windows 11. Operation on Linux, macOS, or other en
 
 ## Getting started
 
-1. Download `Simple_.exe_Maker_v2.4.0.zip` from [Releases](../../releases) and extract it.
+1. Download `Simple_.exe_Maker_v2.4.1.zip` from [Releases](../../releases) and extract it.
 2. Select the target file to use its existing icon, or select the target and an image together to use a custom icon.
-3. Drag the selected files onto `Simple_.exe_Maker_v2.4.0.bat`.
+3. Drag the selected files onto `Simple_.exe_Maker_v2.4.1.bat`.
 4. Save the launcher to the Maker folder or your desktop, then run the generated EXE.
 
 | Input | Supported formats |
@@ -32,7 +32,7 @@ Images other than ICO must be square. Windows and the .NET Framework 4.x C# comp
 
 On Windows 11, the author verified that Maker creates a launcher with the target’s existing icon when no custom image is provided, and that the launcher still starts the original target after being moved to another folder.
 
-[Detailed guide (Korean)](Simple_.exe_Maker_v2.4.0_사용설명서.txt) · [Changelog (Korean)](Simple_.exe_Maker_v2.4.0_변경사항.txt)
+[Detailed guide (Korean)](USER_GUIDE.ko.txt) · [Changelog (Korean)](CHANGELOG.ko.txt)
 
 ## Permission
 
